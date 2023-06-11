@@ -1,7 +1,7 @@
 const express = require('express')
 const router= express.Router()
 
-const {getAll, getRestaurant, register, deleteRestaurant, updateRestaurant} = require ('../controllers/restaurantController')
+const {getAll, getRestaurant, register, deleteRestaurant, updateRestaurant, login} = require ('../controllers/restaurantController')
 
 router.get('/', getAll)
 
@@ -12,6 +12,8 @@ router.post('/register', register)
 router.delete('/:id', deleteRestaurant)
 
 router.patch('/:id', updateRestaurant)
+
+router.post('/login', login)
 
 
 

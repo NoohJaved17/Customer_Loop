@@ -13,6 +13,8 @@ const customerRoutes = require ('./routes/customers')
 const restOwnerRoutes = require ('./routes/restOwners')
 const restaurantRoutes = require ('./routes/restaurants')
 const adminRoutes = require ('./routes/admin')
+const feedbackRoutes = require ('./routes/feedback')
+
 
 
 //express app
@@ -20,7 +22,6 @@ const app = express();
 
 //middleware
 app.use(express.json())
-
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
@@ -31,6 +32,7 @@ app.use('/api/customer',customerRoutes)
 app.use('/api/restOwner',restOwnerRoutes)
 app.use('/api/restaurant', restaurantRoutes)
 app.use('/api/admin', adminRoutes)
+app.use('/api/feedback', feedbackRoutes)
 
 
 

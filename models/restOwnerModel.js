@@ -22,6 +22,10 @@ const restOwnerSchema = new Schema({
     restName : {
         type: String,
         required: true
+    },
+    isVerified : {
+        type: Boolean,
+        default: false
     }
 }, {timestamp: true})
 

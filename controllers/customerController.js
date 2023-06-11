@@ -19,6 +19,7 @@ const getAll = async (req, res) => {
 const getCustomer = async (req, res) => {
     //getting id from params
     const {id} = req.params
+    console.log("j")
 
     //if an invalid type of id (type does not match etc)
     if(!mongoose.Types.ObjectId.isValid(id)) {
@@ -64,59 +65,59 @@ const signUp = async (req, res) => {
                 res.status(400).json({error: error.message})
             } 
         }
-        const OTP = otpGenerator.generate(6, {
-            digits: true, alphabets: false, upperCase: false, specialChars: false
-        });
-        console.log(OTP);
-        const greenwebsms = new URLSearchParams();
-        greenwebsms.append('token', '05fa33c4cb50c35f4a258e85ccf50509');
-        greenwebsms.append('to', '+${email}');
-        greenwebsms.append('message', 'Verification Code ${OTP}');
-        await axios.post('http://api.greenweb.com.bd/api.php', greenwebsms)
-        const otp = await Otp({ 
-            email: email, 
-            password: password,
-            name: name,
-            otp: OTP 
-        });
-        await otp.save();
-    res.status(200).send({message:"Otp send successfully!",otp});
+        // const OTP = otpGenerator.generate(6, {
+        //     digits: true, alphabets: false, upperCase: false, specialChars: false
+        // });
+        // console.log(OTP);
+        // const greenwebsms = new URLSearchParams();
+        // greenwebsms.append('token', '05fa33c4cb50c35f4a258e85ccf50509');
+        // greenwebsms.append('to', '+${email}');
+        // greenwebsms.append('message', 'Verification Code ${OTP}');
+        // await axios.post('http://api.greenweb.com.bd/api.php', greenwebsms)
+        // const otp = await Otp({ 
+        //     email: email, 
+        //     password: password,
+        //     name: name,
+        //     otp: OTP 
+        // });
+    //     await otp.save();
+    // res.status(200).send({message:"Otp send successfully!",otp});
     }
 }
 
 const verifyOtp = async (req, res) => {
     
-    const otpHolder = await Otp.find({
-        email: req.body.email
-    });
-    // console.log(otpHolder[0].otp);
-    // console.log(req.body.otp);
+//     const otpHolder = await Otp.find({
+//         email: req.body.email
+//     });
+//     // console.log(otpHolder[0].otp);
+//     // console.log(req.body.otp);
 
-    if (otpHolder[0].otp !== req.body.otp){
-        console.log("hello");
-    }
+//     if (otpHolder[0].otp !== req.body.otp){
+//         console.log("hello");
+//     }
     
-    if (otpHolder[0].otp !== req.body.otp) return res.status(400).send("Enter Correct OTP!");
+//     if (otpHolder[0].otp !== req.body.otp) return res.status(400).send("Enter Correct OTP!");
     
-    const rightOtpFind = otpHolder[otpHolder.length - 1];
-    // const validCustomer = await bcrypt.compare(req.body.otp, rightOtpFind.otp);
+//     const rightOtpFind = otpHolder[otpHolder.length - 1];
+//     // const validCustomer = await bcrypt.compare(req.body.otp, rightOtpFind.otp);
 
-    // if (rightOtpFind.number === req.body.number && validCustomer) {
-        if (rightOtpFind.email === req.body.email) {
-        const customer = new Customer(_.pick(req.body, ["email"]));
-        const token = customer.generateJWT();
-        const result = await customer.save();
-        const OTPDelete = await Otp.deleteMany({
-            number: rightOtpFind.number
-        });
-        return res.status(200).send({
-            message: "Customer Registration Successfull!",
-            token: token,
-            data: result
-        });
-    } else {
-        return res.status(400).send("Your OTP was wrong!")
-    }
+//     // if (rightOtpFind.number === req.body.number && validCustomer) {
+//         if (rightOtpFind.email === req.body.email) {
+//         const customer = new Customer(_.pick(req.body, ["email"]));
+//         const token = customer.generateJWT();
+//         const result = await customer.save();
+//         const OTPDelete = await Otp.deleteMany({
+//             number: rightOtpFind.number
+//         });
+//         return res.status(200).send({
+//             message: "Customer Registration Successfull!",
+//             token: token,
+//             data: result
+//         });
+//     } else {
+//         return res.status(400).send("Your OTP was wrong!")
+//     }
 }
 
 // delete a customer
@@ -126,13 +127,14 @@ const deleteCustomer = async (req, res) => {
 
     //if an invalid type of id
     if(!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(404).json({error : "No such customer exists!"})
+        return res.status(404).json({error : "No such customer exists1!"})
     }
 
     const customer = await Customer.findOneAndDelete({_id: id})
+    console.log('yo')
     //if no such customer exists!
     if(!customer) {
-        return res.status(404).json("No such customer exists!")
+       return res.status(404).json("No such customer exists!")
     }
     res.status(200).json(customer)
 }

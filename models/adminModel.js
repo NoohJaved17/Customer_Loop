@@ -21,7 +21,7 @@ const adminSchema = Schema({
     }
 }, { timestamps: true });
 
-customerSchema.methods.generateJWT = function () {
+adminSchema.methods.generateJWT = function () {
     const token = jwt.sign({
         _id: this._id,
         email: this.email,

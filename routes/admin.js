@@ -7,11 +7,11 @@ router.get('/', getAll)
 
 router.get('/:id', getAdmin)
 
-router.post('/register', register) 
+//router.post('/register', register) 
 
-router.delete('/:id', deleteAdmin)
+//router.delete('/:id', deleteAdmin)
 
-router.patch('/:id', updateAdmin)
+//router.patch('/:id', updateAdmin)
 
 router.post('/login', login)
 module.exports = router;
