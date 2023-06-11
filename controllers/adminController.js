@@ -4,7 +4,7 @@ const axios = require("axios");
 const otpGenerator = require('otp-generator');
 const mongoose = require ('mongoose')
 
-const Customer = require('../models/adminModel');
+const Admin = require('../models/adminModel');
 const  Otp = require('../models/otpModel');
 
 // // get all admins
@@ -161,11 +161,11 @@ const getAdmin = async (req, res) => {
 //login
 const login = async (req, res) => {
     const {email,password} =req.body;
-    const customer = await Customer.findOne({email: email})
+    const admin = await Admin.findOne({email: email})
 
-    if(customer) {
-        if(password===customer.password) {
-            res.status(200).json({message:"login sucess",customer:customer})
+    if(admin) {
+        if(password===admin.password) {
+            res.status(200).json({message:"login sucess",admin:admin})
         }
         else {
             res.status(404).json("Wrong credentials")
@@ -178,11 +178,11 @@ const login = async (req, res) => {
 
 module.exports = {
     getAll,
-    getCustomer,
-    signUp,
-    verifyOtp,
-    deleteCustomer,
-    updateCustomer,
+    getAdmin,
+    // signUp,
+    // verifyOtp,
+    // deleteAdmin,
+    // updateAdmin,
     login
 }
 

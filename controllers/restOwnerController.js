@@ -36,9 +36,9 @@ const getRestOwner = async (req, res) => {
 
 //register a new restOwner
 const signUp = async (req, res) => {
-    const {email, password, name} = req.body
+    const {email, password, name, restLocation, restName} = req.body
 
-    if (email == "" || password == "" || name == "") { 
+    if (email == "" || password == "" || name == "" || restLocation == "" || restName == "") { 
         res.json({ status: "FAILED", message: "Empty input fields!", }) 
 
     } else if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) { 
@@ -58,28 +58,28 @@ const signUp = async (req, res) => {
         if (restOwner) return res.status(400).send("Restaurant owner already registered!");
         else {
             try {
-                const restOwner= RestOwner.create({email, password, name})
+                const restOwner= RestOwner.create({email, password, name, restLocation, restName})
             } catch (error) {
                 res.status(400).json({error: error.message})
             } 
         }
-        const OTP = otpGenerator.generate(6, {
-            digits: true, alphabets: false, upperCase: false, specialChars: false
-        });
-        console.log(OTP);
-        const greenwebsms = new URLSearchParams();
-        greenwebsms.append('token', '05fa33c4cb50c35f4a258e85ccf50509');
-        greenwebsms.append('to', '+${email}');
-        greenwebsms.append('message', 'Verification Code ${OTP}');
-        await axios.post('http://api.greenweb.com.bd/api.php', greenwebsms)
-        const otp = await Otp({ 
-            email: email, 
-            password: password,
-            name: name,
-            otp: OTP 
-        });
-        await otp.save();
-    res.status(200).send({message:"Otp send successfully!",otp});
+    //     const OTP = otpGenerator.generate(6, {
+    //         digits: true, alphabets: false, upperCase: false, specialChars: false
+    //     });
+    //     console.log(OTP);
+    //     const greenwebsms = new URLSearchParams();
+    //     greenwebsms.append('token', '05fa33c4cb50c35f4a258e85ccf50509');
+    //     greenwebsms.append('to', '+${email}');
+    //     greenwebsms.append('message', 'Verification Code ${OTP}');
+    //     await axios.post('http://api.greenweb.com.bd/api.php', greenwebsms)
+    //     const otp = await Otp({ 
+    //         email: email, 
+    //         password: password,
+    //         name: name,
+    //         otp: OTP 
+    //     });
+    //     await otp.save();
+    // res.status(200).send({message:"Otp send successfully!",otp});
     }
 }
 
@@ -162,13 +162,13 @@ const login = async (req, res) => {
     const {email,password} =req.body;
     const restOwner = await RestOwner.findOne({email: email})
 
-    if(restOwner) {
-        if(password===restOwner.password) {
-            res.status(200).json({message:"login sucess",restOwner:restOwner})
-        }
-        else {
-            res.status(404).json("Wrong credentials")
-        }
+    if(restOwner && restOwner.isVerified === true) {
+            if(password===restOwner.password) {
+                res.status(200).json({message:"login sucess",restOwner:restOwner})
+            }   
+            else {
+                res.status(404).json("Wrong credentials")
+            }
     }
     else {
         res.status(400).json("not registered!")

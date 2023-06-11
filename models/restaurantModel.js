@@ -7,6 +7,10 @@ const restaurantSchema = new Schema({
         type: String,
         required: true
     },
+    password: {
+        type: String,
+        required: true
+    },
     ownerName: {
         type: String,
         required: true
@@ -17,7 +21,12 @@ const restaurantSchema = new Schema({
     },
     name: {
         type: String,
-        required: true
+        required: true,
+        unique: true
+    },
+    isVerified : {
+        type: Boolean,
+        default: false
     }
 }, {timestamp: true})
 

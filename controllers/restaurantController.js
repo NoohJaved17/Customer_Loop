@@ -2,7 +2,7 @@ const Restaurant = require('../models/restaurantModel')
 const mongoose = require ('mongoose')
 
 //get All
-const getAllRestaurant = async (req, res) => {
+const getAll = async (req, res) => {
     const restaurants = await Restaurant.find({}).sort({createdAt: -1})
 
     res.status(200).json(restaurants)
@@ -30,16 +30,33 @@ const getRestaurant = async (req, res) => {
 
 // add a new restaurant
 const register = async (req, res ) => {
-    //getting data from req
-    const {ownerEmail, ownerName, location, name} = req.body
+    const {ownerEmail, password, ownerName, location, name} = req.body
 
-    //add a new restaurant to db
-    try {
-        const restaurant= await Restaurant.create({ownerEmail, ownerName, location, name})
-        res.status(200).json(restaurant)
-    } catch (error) {
-        res.status(400).json({error: error.message})
+    if (ownerEmail == "" || password == "" || ownerName == "" || location == "" || name == "") { 
+        res.json({ status: "FAILED", message: "Empty input fields!", }) 
 
+    } else if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(ownerEmail)) { 
+        res.json({status: "FAILED", message: "Invalid email entered", }); 
+
+    } else if (!/^[a-zA-Z ]*$/.test(ownerName)) { 
+        res.json({ status: "FAILED", message: "Invalid name entered", });
+
+    } else if(password.length < 8) {
+        res.json({
+            status: "FAILED", message: "Password too short!", });
+    }
+
+    else {
+        const restaurant = await Restaurant.findOne({ownerEmail: ownerEmail})
+
+        if (restaurant) return res.status(400).send("Restaurant already registered!");
+        else {
+            try {
+                const restaurant= Restaurant.create({ownerEmail, password, ownerName, location, name})
+            } catch (error) {
+                res.status(400).json({error: error.message})
+            } 
+        }
     }
 }
 
@@ -83,11 +100,29 @@ const updateRestaurant = async (req, res)=> {
     res.status(200).json(restaurant)
 }
 
+//login
+const login = async (req, res) => {
+    const {email,password} =req.body;
+    const restaurant = await Restaurant.findOne({ownerEmail: email})
+
+    if(restaurant && restaurant.isVerified === true) {
+            if(password===restaurant.password) {
+                res.status(200).json({message:"login sucess",restaurant:restaurant})
+            }   
+            else {
+                res.status(404).json("Wrong credentials")
+            }
+    }
+    else {
+        res.status(400).json("not registered!")
+    }   
+}
 
 module.exports = {
     getAll,
     getRestaurant,
     register,
     deleteRestaurant,
-    updateRestaurant
+    updateRestaurant,
+    login
 }
