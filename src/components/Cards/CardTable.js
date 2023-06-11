@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
+
 // components
 
 import TableDropdown from "components/Dropdowns/TableDropdown.js";
@@ -23,7 +23,7 @@ export default function CardTable({ color }) {
                   (color === "light" ? "text-blueGray-700" : "text-white")
                 }
               >
-                Results
+                Card Tables
               </h3>
             </div>
           </div>
@@ -41,7 +41,7 @@ export default function CardTable({ color }) {
                       : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
                   }
                 >
-                  Feedback
+                  Project
                 </th>
                 <th
                   className={
@@ -51,7 +51,7 @@ export default function CardTable({ color }) {
                       : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
                   }
                 >
-                  Date
+                  Budget
                 </th>
                 <th
                   className={
@@ -63,16 +63,6 @@ export default function CardTable({ color }) {
                 >
                   Status
                 </th>
-                {/* <th
-                  className={
-                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
-                    (color === "light"
-                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
-                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
-                  }
-                >
-                  User
-                </th> */}
                 <th
                   className={
                     "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
@@ -81,7 +71,17 @@ export default function CardTable({ color }) {
                       : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
                   }
                 >
-                  Give Feedback
+                  Users
+                </th>
+                <th
+                  className={
+                    "px-6 align-middle border border-solid py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left " +
+                    (color === "light"
+                      ? "bg-blueGray-50 text-blueGray-500 border-blueGray-100"
+                      : "bg-lightBlue-800 text-lightBlue-300 border-lightBlue-700")
+                  }
+                >
+                  Completion
                 </th>
                 <th
                   className={
@@ -96,42 +96,27 @@ export default function CardTable({ color }) {
             <tbody>
               <tr>
                 <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
-                  {/* <img
+                  <img
                     src={require("assets/img/bootstrap.jpg").default}
                     className="h-12 w-12 bg-white rounded-full border"
                     alt="..."
-                  ></img>{" "} */}
+                  ></img>{" "}
                   <span
                     className={
                       "ml-3 font-bold " +
                       +(color === "light" ? "text-blueGray-600" : "text-white")
                     }
                   >
-                    Mcdonalds
+                    Argon Design System
                   </span>
                 </th>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                  14-05-22
+                  $2,500 USD
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                   <i className="fas fa-circle text-orange-500 mr-2"></i> pending
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                <li className="items-left">
-                <Link
-                  className={
-
-                    (window.location.href.indexOf("/admin/feedbackform") !== -1
-                      ? "text-lightBlue-500 hover:text-lightBlue-600"
-                      : "text-blueGray-700 hover:text-blueGray-500")
-                  }
-                  to="/admin/feedbackform"
-                >
-                Feeback Form
-                </Link>
-              </li>
-                </td>
-                {/* <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                   <div className="flex">
                     <img
                       src={require("assets/img/team-1-800x800.jpg").default}
@@ -170,9 +155,9 @@ export default function CardTable({ color }) {
                 </td>
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
                   <TableDropdown />
-                </td> */}
+                </td>
               </tr>
-              {/* <tr>
+              <tr>
                 <th className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left flex items-center">
                   <img
                     src={require("assets/img/angular.jpg").default}
@@ -426,7 +411,7 @@ export default function CardTable({ color }) {
                 <td className="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-right">
                   <TableDropdown />
                 </td>
-              </tr> */}
+              </tr>
             </tbody>
           </table>
         </div>
